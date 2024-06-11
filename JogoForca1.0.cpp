@@ -10,13 +10,13 @@
     #define COMANDO_LIMPAR "clear"
 #endif
 
-// Estrutura de representação de um nó da palavra
+// Estrutura de representaÃ§Ã£o de um nÃ³ da palavra
 typedef struct No {
     char caractere;
     struct No* proximo;
 } No;
 
-// Função para inserir uma letra no final de uma palavra
+// FunÃ§Ã£o para inserir uma letra no final de uma palavra
 void inserirLetra(No** cabeca, char letra) {
     No* novoNo = (No*)malloc(sizeof(No));
     novoNo->caractere = letra;
@@ -33,7 +33,7 @@ void inserirLetra(No** cabeca, char letra) {
     }
 }
 
-// Função para imprimir a palavra, mostrando letras descobertas e "?" para letras ocultas
+// FunÃ§Ã£o para imprimir a palavra, mostrando letras descobertas e "?" para letras ocultas
 void imprimirPalavra(No* cabeca, int* posicoes, int tamanho) {
     No* atual = cabeca;
     for (int i = 0; i < tamanho; i++) {
@@ -47,7 +47,7 @@ void imprimirPalavra(No* cabeca, int* posicoes, int tamanho) {
     printf("\n");
 }
 
-// Função para verificar se uma letra está presente em uma palavra
+// FunÃ§Ã£o para verificar se uma letra estÃ¡ presente em uma palavra
 bool letraNaPalavra(No* cabeca, char letra, int* posicoes) {
     int indice = 0;
     bool encontrada = false;
@@ -63,7 +63,7 @@ bool letraNaPalavra(No* cabeca, char letra, int* posicoes) {
     return encontrada;
 }
 
-// Função para verificar se a palavra foi completamente adivinhada
+// FunÃ§Ã£o para verificar se a palavra foi completamente adivinhada
 bool palavraAdivinhada(int* posicoes, int tamanho) {
     for (int i = 0; i < tamanho; i++) {
         if (posicoes[i] == 0) {
@@ -73,17 +73,17 @@ bool palavraAdivinhada(int* posicoes, int tamanho) {
     return true;
 }
 
-// Função para limpar a tela do terminal
+// FunÃ§Ã£o para limpar a tela do terminal
 void limparTela() {
     system(COMANDO_LIMPAR);
 }
 
-// Função para comparar duas letras (usada na ordenação alfabética)
+// FunÃ§Ã£o para comparar duas letras (usada na ordenaÃ§Ã£o alfabÃ©tica)
 int compararLetras(const void* a, const void* b) {
-    return (*(const char*)a - *(const char*)b);
+    return ((const char)a - (const char)b);
 }
 
-// Função para selecionar uma palavra aleatória com base na categoria e no nível escolhidos
+// FunÃ§Ã£o para selecionar uma palavra aleatÃ³ria com base na categoria e no nÃ­vel escolhidos
 const char* obterPalavraAleatoria(int categoria, int nivel) {
     const char* animaisFase1[] = {"gato", "rato", "sapo", "peixe", "urso", "coelho", "pato", "ovelha", "bode", "cavalo"};
     const char* animaisFase2[] = {"cachorro", "elefante", "girafa", "leopardo", "hipopotamo", "tartaruga", "gorila", "papagaio", "jaguatirica", "pinguim"};
@@ -91,7 +91,7 @@ const char* obterPalavraAleatoria(int categoria, int nivel) {
 
     const char* frutasFase1[] = {"maca", "pera", "uva", "kiwi", "figo", "limao", "ameixa", "pessego", "manga", "caju"};
     const char* frutasFase2[] = {"laranja", "abacaxi", "mamao", "caqui", "cereja", "morango", "melancia", "melao", "framboesa", "nectarina"};
-    const char* frutasFase3[] = {"carambola", "maracuja", "pinha", "lichia", "jabuticaba", "acerola", "cupuaçu", "graviola", "pitanga", "araca"};
+    const char* frutasFase3[] = {"carambola", "maracuja", "pinha", "lichia", "jabuticaba", "acerola", "cupuaÃ§u", "graviola", "pitanga", "araca"};
 
     const char* objetosFase1[] = {"mesa", "cadeira", "cama", "sofa", "porta", "janela", "lampada", "caneta", "copo", "prato"};
     const char* objetosFase2[] = {"computador", "telefone", "geladeira", "fogao", "ventilador", "microondas", "armario", "chuveiro", "piano", "livro"};
@@ -167,7 +167,7 @@ const char* obterPalavraAleatoria(int categoria, int nivel) {
                     return NULL;
             }
             break;
-        case 4: // Países
+        case 4: // PaÃ­ses
             switch (nivel) {
                 case 1:
                     listaPalavras = paisesFase1;
@@ -185,7 +185,7 @@ const char* obterPalavraAleatoria(int categoria, int nivel) {
                     return NULL;
             }
             break;
-        case 5: // Profissões
+        case 5: // ProfissÃµes
             switch (nivel) {
                 case 1:
                     listaPalavras = profissoesFase1;
@@ -228,13 +228,25 @@ const char* obterPalavraAleatoria(int categoria, int nivel) {
     return listaPalavras[rand() % numPalavras];
 }
 
+// FunÃ§Ã£o para exibir o boneco de "game over"
+void exibirBonecoGameOver() {
+    printf("  ___      \n");
+    printf(" |       |     \n");
+    printf(" |       O     \n");
+    printf(" |      /|\\   \n");
+    printf(" |      / \\   \n");
+    printf(" |             \n");
+    printf("|__          \n");
+    printf("Game Over!     \n");
+}
+
 int main() {
-    srand(time(NULL)); // Inicializar a semente do gerador de números aleatórios
+    srand(time(NULL)); // Inicializar a semente do gerador de nÃºmeros aleatÃ³rios
 
     int categoria, nivel = 1;
     char palavraSecreta[50]; // Corrigindo o tipo de palavraSecreta para um array de caracteres de tamanho fixo
     No* palavra = NULL;
-    char chute;
+    char chute[50]; // Alterar chute para um array de caracteres para aceitar palavras
     int tentativas;
     char letrasErradas[26]; // Inicializar o array de letras incorretas
     int contadorErros;
@@ -251,18 +263,18 @@ int main() {
     scanf("%d", &categoria);
 
     while (nivel <= 3) {
-        const char* palavraAleatoria = obterPalavraAleatoria(categoria, nivel); // Selecionar uma palavra aleatória da categoria e nível escolhidos
+        const char* palavraAleatoria = obterPalavraAleatoria(categoria, nivel); // Selecionar uma palavra aleatÃ³ria da categoria e nÃ­vel escolhidos
 
         if (palavraAleatoria == NULL) {
-            printf("Categoria ou nível invalido!\n");
+            printf("Categoria ou nÃ­vel invalido!\n");
             return 1;
         }
 
-        strcpy(palavraSecreta, palavraAleatoria); // Copiar a palavra aleatória para palavraSecreta
+        strcpy(palavraSecreta, palavraAleatoria); // Copiar a palavra aleatÃ³ria para palavraSecreta
 
         limparTela(); // Limpar a tela do terminal
 
-        // Inicializar variáveis de jogo
+        // Inicializar variÃ¡veis de jogo
         palavra = NULL;
         tentativas = 6;
         contadorErros = 0;
@@ -273,7 +285,7 @@ int main() {
             inserirLetra(&palavra, palavraSecreta[i]);
         }
 
-        int* posicoes = (int*)malloc(strlen(palavraSecreta) * sizeof(int)); // Array para armazenar as posições das letras corretas
+        int* posicoes = (int*)malloc(strlen(palavraSecreta) * sizeof(int)); // Array para armazenar as posiÃ§Ãµes das letras corretas
         memset(posicoes, 0, strlen(palavraSecreta) * sizeof(int));
 
         // Loop principal do jogo
@@ -283,7 +295,7 @@ int main() {
             imprimirPalavra(palavra, posicoes, strlen(palavraSecreta)); // Imprimir a palavra oculta
 
             printf("Letras incorretas: ");
-            qsort(letrasErradas, contadorErros, sizeof(char), compararLetras); // Ordenar as letras incorretas em ordem alfabética
+            qsort(letrasErradas, contadorErros, sizeof(char), compararLetras); // Ordenar as letras incorretas em ordem alfabÃ©tica
             for (int i = 0; i < contadorErros; i++) {
                 printf("%c ", letrasErradas[i]); // Imprimir as letras incorretas
             }
@@ -291,31 +303,46 @@ int main() {
 
             printf("Tentativas restantes: %d\n", tentativas);
 
-            printf("Digite uma letra: ");
-            scanf(" %c", &chute);
+            printf("Digite uma letra ou palavra: ");
+            scanf("%s", chute);
 
-            if (letraNaPalavra(palavra, chute, posicoes)) { // Verificar se a letra está na palavra
-                printf("Letra correta!\n");
+            if (strlen(chute) == 1) {
+                // Se o chute for uma Ãºnica letra
+                if (letraNaPalavra(palavra, chute[0], posicoes)) { // Verificar se a letra estÃ¡ na palavra
+                    printf("Letra correta!\n");
+                } else {
+                    printf("Letra incorreta!\n");
+                    tentativas--;
+                    letrasErradas[contadorErros] = chute[0]; // Adicionar a letra incorreta ao array
+                    contadorErros++;
+                }
             } else {
-                printf("Letra incorreta!\n");
-                tentativas--;
-                letrasErradas[contadorErros] = chute; // Adicionar a letra incorreta ao array
-                contadorErros++;
+                // Se o chute for uma palavra completa
+                if (strcmp(chute, palavraSecreta) == 0) {
+                    printf("Palavra correta!\n");
+                    for (int i = 0; i < strlen(palavraSecreta); i++) {
+                        posicoes[i] = 1;
+                    }
+                } else {
+                    printf("Palavra incorreta!\n");
+                    tentativas--;
+                }
             }
 
             printf("\n");
         }
 
-        // Fim do jogo para o nível atual
+        // Fim do jogo para o nÃ­vel atual
         if (tentativas == 0) {
             printf("Voce perdeu! A palavra secreta era: %s\n", palavraSecreta);
+            exibirBonecoGameOver(); // Exibir o boneco de "game over"
             break;
         } else {
             printf("Parabens! Voce acertou a palavra secreta!\n");
             nivel++;
         }
 
-        free(posicoes); // Liberar a memória alocada para o array de posições
+        free(posicoes); // Liberar a memÃ³ria alocada para o array de posiÃ§Ãµes
     }
 
     if (nivel > 3) {
@@ -324,4 +351,3 @@ int main() {
 
     return 0;
 }
-
